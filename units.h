@@ -25,31 +25,39 @@ class Unit
 		
 };
 
-/*class Encounter
+class Encounter
 {
 	private:
-		int encounter_number = 0;
+		int _encounter_number = 1;
 	public:
-		void yourHero();
+		int encounter_number() {return _encounter_number;}
+		void yourHero(string sentence);
 		void combat();
 		void victory_message();
 		void loss_message();
 
-};*/
+};
 
 class Hero : public Unit
 {
 	private:
 		int _luck;
-		void victoryAward();
 	public:
 		Hero();
+		int luck() {return _luck;}
+		void victoryAward();
 };
 
-class Glad : Unit
+class Glad : public Unit
 {
-	private:
-		int hitChance();
 	public:
 		Glad();
+		int hitChance();
+		void powerup(int value, int maxhp, int attack, int def);
+};
+
+class Animal : public Unit
+{
+	public:
+		Animal();
 };

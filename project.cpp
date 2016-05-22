@@ -36,6 +36,13 @@ Glad::Glad()
 	_defencePower = 40 + rand() % 20;
 }
 
+Animal::Animal()
+{
+	_hp = totalHp = 100 + rand() % 50;
+	_attackPower = 40 + rand() % 70;
+	_defencePower = 10 + rand() % 30;
+}
+
 int Glad::hitChance()
 {
 	int value;
@@ -54,8 +61,33 @@ void Hero::victoryAward()
 		_hp+=(totalHp)/5;
 }
 
-/*void Encounter::yourHero()
+void Encounter::yourHero(string sentence)
 {
-	Hero gladiator;
-	cout<<"Your hero's name is "<<gladiator._name<<"!"<<endl;
-}*/
+	cout<<"Your hero's name is "<<sentence<<"!"<<endl;
+}
+
+bool Unit::areYouDead(int value)
+{
+	if(value<=0)
+		return 0;
+	else return 1;
+}
+void Glad::powerup(int value, int maxhp, int attack, int def)
+{
+	switch(value)
+	{
+		case 2:
+		{
+			maxhp+=maxhp/10;
+			attack+=attack/10;
+			def+=def/10;
+		} break;
+
+		case 3:
+		{
+			maxhp+=maxhp/5;
+			attack+=attack/5;
+			def+=def/5;
+		} break;
+	}
+}
