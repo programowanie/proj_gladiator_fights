@@ -11,10 +11,15 @@ vector <string> Unit::names;
 void Unit::init()
 {
 	ifstream file("roman_names.txt");
+	ifstream filetwo("animal_names");
 	copy(istream_iterator<string>(file),
 		istream_iterator<string>(),
 		back_inserter(names));
+	copy(istream_iterator<string>(filetwo),
+		istream_iterator<string>(),
+		back_inserter(animal_names));
 	file.close();
+	filetwo.close();
 }
 
 Hero::Hero()
@@ -36,8 +41,10 @@ Glad::Glad()
 	_defencePower = 40 + rand() % 20;
 }
 
-Animal::Animal()
+Animal::Animal() 								//nazwy jeszcze
 {
+	static int amountOfAnimalNames = (init, animal_names.size());
+	_name = animal_names[rand() % amountOfAnimalNames];
 	_hp = totalHp = 100 + rand() % 50;
 	_attackPower = 40 + rand() % 70;
 	_defencePower = 10 + rand() % 30;

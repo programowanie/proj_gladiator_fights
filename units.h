@@ -9,6 +9,7 @@ class Unit
 {
 	public:
 		static vector <string> names;
+		static vector <string> animal_names;
 
 		string _name;
 		int _hp, totalHp;
