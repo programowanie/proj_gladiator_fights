@@ -34,8 +34,8 @@ class Encounter
 		int encounter_number() {return _encounter_number;}
 		void yourHero(string sentence);
 		void combat();
-		void victory_message();
-		void loss_message();
+		void victory_message(string name);
+		void loss_message(string hero, string enemy);
 
 };
 
@@ -61,4 +61,11 @@ class Animal : public Unit
 {
 	public:
 		Animal();
+};
+class Centurion : public Unit
+{
+	public:
+		void enrage(int atk, int def);
+		Centurion();
+		int hitChance();
 };
