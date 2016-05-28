@@ -10,16 +10,25 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 
 	Hero gladiator;
-	Glad enemy_no1, enemy_no2, enemy_no3;
-	Animal anim_one;
-	Centurion cent;
-	Encounter fight_one;
 
-		fight_one.nameOfHero=gladiator.name();
-		fight_one.yourHero(gladiator.name());
+	Glad enemy;
 
+	Animal beast;
 
-		fight_one.combatLoop(gladiator.hp(), gladiator.attackPower(), gladiator.defencePower(), enemy_no1.hp(), enemy_no1.attackPower(), enemy_no1.defencePower());
+	Centurion boss;
 
+	Encounter fight;
+
+		fight.nameOfHero=gladiator._name;
+		fight.yourHero(gladiator._name);
+
+		for(int i=0; i<3; i++)
+		{
+			enemy.powerup(fight.encounter_number(), enemy.totalHp, enemy._attackPower, enemy._defencePower);
+
+			fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+						enemy._hp, enemy._attackPower, enemy._defencePower);
+		}
+		
 
 }

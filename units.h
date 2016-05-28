@@ -20,30 +20,32 @@ class Unit
 		string name() {return _name;}
 		int attackPower() {return _attackPower;}
 		int defencePower() {return _defencePower;}
-
-		
-
-		
+	
 };
 
 class Encounter
 {
 	private:
-		int _encounter_number = 1;
+		int _encounter_number=1;
 		
 		void victory_message(string name);
+		void loss_message(string hero, string enemy);
+
 		double hittedSpotMultiplation();			//Wprowadziłem dodatkową funkcję która ciekawie wpływa na faktyczne wartości obrażeń.
 													//Ta funkcja reprezentuje sytuację uderzeń krytycznych, np miecz może uderzyć w naramiennik i zadać mało obrażeń
 													//ale także może uderzyć, np w krocze i zadać obrażenia krytyczne :P
 	public:
+		/*Encounter();*/
+
 		int damage_received(int dmg, int armor);
 		string nameOfHero;
-		int encounter_number() {return _encounter_number;}
-		void yourHero(string sentence);
 
+		int encounter_number();
+
+		void yourHero(string sentence);
 		
-		void loss_message(string hero, string enemy);
 		void combatLoop(int heroHp, int heroDmg, int heroDef, int enemyHp, int enemyDmg, int enemyDef);
+
 		bool areYouDead(int value);
 
 };
