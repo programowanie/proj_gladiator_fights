@@ -47,7 +47,7 @@ Glad::Glad()
 	_name = names[rand() % amountOfNames];
 	_hp = totalHp = 70 + rand() % 50;
 	_attackPower = 20 + rand() % 30;
-	_defencePower = 40 + rand() % 20;
+	_defencePower = 60 + rand() % 20;
 }
 
 Animal::Animal() 								
@@ -105,7 +105,7 @@ void Encounter::loss_message(string hero, string enemy)
 	cout<<"Brave "<<hero<<" has been awfully killed by "<<enemy<<"!"<<endl;
 }
 
-bool Unit::areYouDead(int value)
+bool Encounter::areYouDead(int value)
 {
 	if(value<=0)
 		return 1;
@@ -128,5 +128,41 @@ void Glad::powerup(int value, int maxhp, int attack, int def)
 			attack+=attack/5;
 			def+=def/5;
 		} break;
+	}
+}
+
+int Encounter::damage_received(int dmg, int armor)
+{
+	double value;
+	value=(double)dmg/(double)armor;
+	return dmg*value*hittedSpotMultiplation();
+}
+
+double Encounter::hittedSpotMultiplation()
+{
+	double val1, val2;
+	val1 = 3 + rand() % 3;
+	val2 = 3 + rand() % 3;
+	double value = val1/val2;
+	return value;
+}
+
+void Encounter::combatLoop(int heroHp, int heroDmg, int heroDef, int enemyHp, int enemyDmg, int enemyDef)
+{
+	damage_received(heroDmg, enemyDef);
+	while(1)
+	{
+		cout<<"\t"<<"|"<<"Hero HP"<<"\t"<<"Enemy HP"<<"|"<<endl
+			<<"\t"<<"|"<<heroHp<<"\t\t"<<enemyHp<<"\t"<<"|"<<endl;
+
+		damage_received(heroDmg, enemyDef);enemyHp-=damage_received(heroDmg, enemyDef);
+		if(areYouDead(enemyHp))
+		{
+			victory_message(nameOfHero);
+			break;
+		};
+
+		cout<<nameOfHero<<" dealed "<<damage_received(heroDmg, enemyDef)<<" damage to his enemy!"<<endl;		
+
 	}
 }

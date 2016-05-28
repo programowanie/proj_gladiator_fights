@@ -13,32 +13,13 @@ int main(int argc, char **argv)
 	Glad enemy_no1, enemy_no2, enemy_no3;
 	Animal anim_one;
 	Centurion cent;
-	Encounter fight;
+	Encounter fight_one;
+
+		fight_one.nameOfHero=gladiator.name();
+		fight_one.yourHero(gladiator.name());
 
 
+		fight_one.combatLoop(gladiator.hp(), gladiator.attackPower(), gladiator.defencePower(), enemy_no1.hp(), enemy_no1.attackPower(), enemy_no1.defencePower());
 
 
-
-
-
-
-
-
-
-
-	fight.yourHero(gladiator.name());
-	cout<<endl;
-	fight.yourHero(enemy_no1.name());
-	cout<<endl;
-	fight.yourHero(enemy_no2.name());
-	cout<<endl;
-	fight.yourHero(enemy_no3.name());
-	cout<<endl;
-	fight.yourHero(anim_one.name());
-	cout<<endl;
-	fight.yourHero(cent.name());
-	cout<<endl;
-
-	fight.victory_message(gladiator.name());
-	fight.loss_message(gladiator.name(), cent.name());
 }
