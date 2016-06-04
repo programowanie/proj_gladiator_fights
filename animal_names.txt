@@ -1,0 +1,16 @@
+Boar
+Bull
+Bear
+Dog
+Wolf
+Lion
+Tiger
+Leopard
+Cheetah
+Panther
+Elephant
+Crocodile
+Jaguar
+Hippopotamus
+Rhinoceros
+Crocodile
