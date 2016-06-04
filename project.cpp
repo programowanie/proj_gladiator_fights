@@ -3,6 +3,9 @@
 #include <fstream>
 #include "units.h"
 #include <iterator>
+#include <unistd.h>
+
+#define Slow 1000000
 
 using namespace std;
 
@@ -55,28 +58,17 @@ Animal::Animal()
 	static int amountOfAnimalNames = (init(), animal_names.size());
 	_name = animal_names[rand() % amountOfAnimalNames];
 	_hp = totalHp = 100 + rand() % 50;
-	_attackPower = 40 + rand() % 70;
+	_attackPower = 40 + rand() % 60;
 	_defencePower = 10 + rand() % 30;
 }
-/*Encounter::Encounter()
-{
 
-}*/
-
-void Centurion::enrage(int atk, int def)
+void Encounter::enrage(int & atk, int & def)	//Zmieniłem enrage na 50% co by ciekawiej było :v
 {
-	atk+=atk/2.5;
-	def+=def/2.5;
+	atk+=atk/2;
+	def+=def/2;
 }
 
-int Centurion::hitChance()
-{
-	int value;
-	value = 20 + rand() % 80;
-	return value;
-}
-
-int Glad::hitChance()
+int Encounter::hitChance()
 {
 	int value;
 	value = 20 + rand() % 80;
@@ -85,6 +77,7 @@ int Glad::hitChance()
 
 void Hero::victoryAward()
 {
+	cout<<"Thanks to his efforts "<<_name<<" is able to regenerate some of his health!"<<endl;
 	int heal = (totalHp)/5;
 
 	if(_hp>(totalHp - heal))
@@ -99,20 +92,27 @@ void Encounter::yourHero(string sentence)
 	cout<<"Your hero's name is "<<sentence<<"!"<<endl;
 }
 
+void Encounter::final_victory_message(string name)
+{
+	cout<<name<<" has defeated each and every of his enemies! From this moment on, he shall be called free man!"<<"\t YOU WIN!"<<endl;
+}
+
 void Encounter::victory_message(string name)
 {
-	cout<<name<<" has defeated each and every of his enemies! From this moment on, he shall be called free man!"<<endl;
+	cout<<name<<" was victorious!"<<endl;
 }
 
 void Encounter::loss_message(string hero, string enemy)
 {
-	cout<<"Brave "<<hero<<" has been awfully killed by "<<enemy<<"!"<<endl;
+	cout<<"Brave "<<hero<<" has been awfully killed by "<<enemy<<"!"<<"\t YOU LOSE!"<<endl;
 }
 
 int Encounter::encounter_number()
 {
-	int value;
+	int value=0;
+
 	value = _encounter_number;
+
 	_encounter_number+=1;
 	return value;
 }
@@ -124,7 +124,7 @@ bool Encounter::areYouDead(int value)
 	else return 0;
 }
 
-void Glad::powerup(int value, int maxhp, int attack, int def)
+int Glad::powerup(int value, int & maxhp, int & attack, int & def)
 {
 	switch(value)
 	{
@@ -133,7 +133,7 @@ void Glad::powerup(int value, int maxhp, int attack, int def)
 			maxhp+=maxhp/10;
 			attack+=attack/10;
 			def+=def/10;
-		} break;
+		} return maxhp, attack, def;
 
 		case 3:
 		{
@@ -147,39 +147,78 @@ void Glad::powerup(int value, int maxhp, int attack, int def)
 int Encounter::damage_received(int dmg, int armor)
 {
 	double value;
+
 	value=(double)dmg/(double)armor;
+
 	return dmg*value*hittedSpotMultiplation();
 }
 
 double Encounter::hittedSpotMultiplation()
 {
 	double val1, val2;
+
 	val1 = 3 + rand() % 3;
 	val2 = 3 + rand() % 3;
+
 	double value = val1/val2;
 	return value;
 }
 
-void Encounter::combatLoop(int heroHp, int heroDmg, int heroDef, int enemyHp, int enemyDmg, int enemyDef)
+void Encounter::combatLoop(int & heroHp, int heroDmg, int heroDef, int heroLuck,
+							int enemyHp, int enemyDmg, int enemyDef, int which_fight)
 {
-	damage_received(heroDmg, enemyDef);
+	int totalEnemyHp = enemyHp;
 	while(1)
 	{
+
+		if(which_fight==4 && enemyHp<totalEnemyHp/3)
+		{
+			cout<<nameOfEnemy<<" is furious and goes into enrage!!!"<<endl;
+			enrage(enemyDmg, enemyDef);
+			which_fight++;
+		};
+
 		int hpLoss=damage_received(heroDmg, enemyDef);
+		
+		usleep(Slow);
 
-		cout<<"\t"<<"|"<<"Hero HP"<<"\t"<<"Enemy HP"<<"|"<<endl
-			<<"\t"<<"|"<<heroHp<<"\t\t"<<enemyHp<<"\t"<<"|"<<endl;
-
-		cout<<nameOfHero<<" dealed "<<hpLoss<<" damage to his enemy!"<<endl;
+		cout<<nameOfHero<<" dealed "<<hpLoss<<" damage to "<<nameOfEnemy<<endl;
 
 		enemyHp-=hpLoss;
+
+		cout<<"\t"<<"|"<<"Hero HP"<<"\t"<<"Enemy HP"<<"|"<<endl
+				<<"\t"<<"|"<<heroHp<<"\t\t"<<enemyHp<<"\t"<<"|"<<endl;
+
 		if(areYouDead(enemyHp))
 		{
 			victory_message(nameOfHero);
 			break;
 		};
 
-				
+		if(heroLuck*3>=hitChance())
+		{
+			usleep(Slow);
 
+			cout<<nameOfHero<<" dodges his opponents attack!!"<<endl;
+			continue;
+		} else
+		{
+			hpLoss=damage_received(enemyDmg, heroDef);
+
+			usleep(Slow);
+
+			cout<<nameOfEnemy<<" dealed "<<hpLoss<<" damage to "<<nameOfHero<<endl;
+
+			heroHp-=hpLoss;
+
+			cout<<"\t"<<"|"<<"Hero HP"<<"\t"<<"Enemy HP"<<"|"<<endl
+			<<"\t"<<"|"<<heroHp<<"\t\t"<<enemyHp<<"\t"<<"|"<<endl;
+
+			if(areYouDead(heroHp))
+			{
+				loss_message(nameOfHero, nameOfEnemy);
+				break;
+			};
+		};
 	}
 }

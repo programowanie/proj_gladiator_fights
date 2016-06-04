@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
 	Hero gladiator;
 
-	Glad enemy;
+	Glad enemy, enemy2, enemy3;
 
 	Animal beast;
 
@@ -19,16 +19,90 @@ int main(int argc, char **argv)
 
 	Encounter fight;
 
-		fight.nameOfHero=gladiator._name;
-		fight.yourHero(gladiator._name);
+	fight.nameOfHero=gladiator._name;
+	fight.yourHero(gladiator._name);
 
-		for(int i=0; i<3; i++)
+	for(int i=0; i<=4; i++)
+	{
+		switch(i)
 		{
-			enemy.powerup(fight.encounter_number(), enemy.totalHp, enemy._attackPower, enemy._defencePower);
+			case 0:
+			{
+				fight.nameOfEnemy=enemy._name;
 
-			fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
-						enemy._hp, enemy._attackPower, enemy._defencePower);
-		}
-		
+				enemy.powerup(fight.encounter_number(), enemy.totalHp, enemy._attackPower, enemy._defencePower);
+
+				fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+								gladiator.luck(), enemy.totalHp, enemy._attackPower, enemy._defencePower, i);
+			} break;
+
+			case 1:
+			{
+				if(fight.areYouDead(gladiator._hp))
+				{
+					return 0;
+				};
+
+				gladiator.victoryAward();
+
+				fight.nameOfEnemy=enemy2._name;
+
+				enemy2.powerup(fight.encounter_number(), enemy2.totalHp, enemy2._attackPower, enemy2._defencePower);
+
+				fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+								gladiator.luck(), enemy2.totalHp, enemy2._attackPower, enemy2._defencePower, i);
+			} break;
+
+			case 2:
+			{
+				if(fight.areYouDead(gladiator._hp))
+				{
+					return 0;
+				};
+
+				gladiator.victoryAward();
+
+				fight.nameOfEnemy=enemy3._name;
+
+				enemy2.powerup(fight.encounter_number(), enemy3.totalHp, enemy3._attackPower, enemy3._defencePower);
+
+				fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+								gladiator.luck(), enemy3.totalHp, enemy3._attackPower, enemy3._defencePower, i);
+			} break;
+
+			case 3:
+			{
+				if(fight.areYouDead(gladiator._hp))
+				{
+					return 0;
+				};
+
+				gladiator.victoryAward();
+
+				fight.nameOfEnemy=beast._name;
+
+				fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+								gladiator.luck(), beast.totalHp, beast._attackPower, beast._defencePower, i);
+			} break;
+
+			case 4:
+			{
+				if(fight.areYouDead(gladiator._hp))
+				{
+					return 0;
+				};
+
+				gladiator.victoryAward();
+
+				fight.nameOfEnemy=boss._name;
+
+				fight.combatLoop(gladiator._hp, gladiator._attackPower, gladiator._defencePower,
+								gladiator.luck(), boss.totalHp, boss._attackPower, boss._defencePower, i);
+
+				if(gladiator._hp>0)
+					fight.final_victory_message(gladiator._name);
+			} break;
+		}		
+	}
 
 }
