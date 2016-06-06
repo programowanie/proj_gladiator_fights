@@ -5,7 +5,8 @@
 #include <iterator>
 #include <unistd.h>
 
-#define Slow 1000000
+#define Slow 2000000
+#define Slower 4000000
 
 using namespace std;
 
@@ -89,7 +90,8 @@ void Hero::victoryAward()
 
 void Encounter::yourHero(string sentence)
 {
-	cout<<"Your hero's name is "<<sentence<<"!"<<endl;
+	cout<<"Today a challenger will have a chance of winning his freedom!"<<endl; usleep(Slower);
+	cout<<"This gladiator's name is "<<sentence<<"!"<<endl; usleep(Slow);
 }
 
 void Encounter::final_victory_message(string name)
